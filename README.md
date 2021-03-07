@@ -15,3 +15,14 @@ Deploys a fresh server to the system by removing and repulling the `chiknas/swan
  `-k "'key1','key2'"`
 
  * -p|--path = (REQUIRED) the path in the host machine to mount to the container and use as storage for the uploaded files.
+
+## DockerhubWebhook
+
+Python mini server which exposes an endpoint for POST requests on `/8e6fe373-c129-4ecf-97d9-95e36e8b1eac/trigger/call`. This will trigger a server refresh using the `swan-cloud-server-deploy.sh` file. 
+
+### Usage
+
+ 0. `cd Dockerhubwebhook` change directory to the python project
+ 1. `python3 -m venv venv/dockerhub-webhook`  Create new python3 environment to install required dependencies on.
+ 2. `pip3 install -r requirements.txt` Install required dependencies
+ 3. `python3 DockerhubWebhook.py` Start the server
