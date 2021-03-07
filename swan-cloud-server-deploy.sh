@@ -60,7 +60,7 @@ echo "Refreshed image $IMAGE"
 
 # deploy
 echo "Starting deployment of $CONTAINER"
-docker run -d \
+docker run -d --restart always \
 -p 80:8080 \
 -v "${HOSTPATH}":"/app/data" \
 --env files.base-path=/app/data \
