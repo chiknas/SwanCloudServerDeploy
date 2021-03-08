@@ -1,6 +1,6 @@
 #!/bin/sh
 CONTAINER="swancloud"
-IMAGE="chiknas/swancloud:latest"
+IMAGE="chiknas/swancloud"
 
 # get command line arguments
 while [ $# -gt 0 ]
@@ -18,6 +18,11 @@ case $key in
     shift # past argument
     shift # past value
     ;;
+    -t|--tag)
+    TAG="$2"
+    shift # past argument
+    shift # past value
+    ;;
 esac
 done
 
@@ -29,6 +34,12 @@ fi
 if [ -z "$HOSTPATH" ] ; then
     echo "Must provide a host path to be used for storage with the -p|--path flag." 1>&2
     exit 1
+fi
+# Use latest if image tag is not provided
+if [ -z "$TAG" ] ; then
+    IMAGE="${IMAGE}:latest"
+else
+    IMAGE="${IMAGE}:${TAG}"
 fi
 
 # check docker container exists by trying to inspect it
