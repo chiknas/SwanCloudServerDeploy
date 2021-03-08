@@ -4,7 +4,7 @@ from flask import request
 app = Flask(__name__)
 
 @app.route('/8e6fe373-c129-4ecf-97d9-95e36e8b1eac/trigger/call', methods = ['POST'])
-def handleNewSwanCloudImage():
+def refreshDeployment():
     return 'Hello World!'
 
 

@@ -18,7 +18,7 @@ Deploys a fresh server to the system by removing and repulling the `chiknas/swan
 
 ## DockerhubWebhook
 
-Python mini server which exposes an endpoint for POST requests on `/8e6fe373-c129-4ecf-97d9-95e36e8b1eac/trigger/call`. This will trigger a server refresh using the `swan-cloud-server-deploy.sh` file. 
+Python mini server which exposes an endpoint for POST requests on `/8e6fe373-c129-4ecf-97d9-95e36e8b1eac/trigger/call`. This will trigger a server refresh using the `swan-cloud-server-deploy.sh` file. If `emailsdetails.json` is setup it will also send notification emails on the list of `receivers` when a refresh is triggered. 
 
 ### Usage
 

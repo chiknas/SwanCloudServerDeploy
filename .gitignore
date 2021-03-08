@@ -1,2 +1,5 @@
 # python envs
 venv/
+
+# vs code files
+.vscode/
