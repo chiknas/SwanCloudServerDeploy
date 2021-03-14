@@ -35,4 +35,6 @@ If you reboot or shutdown the Pi, the external SSD won’t be remounted when you
    `sudo certbot certonly --standalone -d <domain goes here>`
 
 3. The new certificate exists in `/etc/letsencrypt/live/<domain goes here>/fullchain.pem` with its key in `/etc/letsencrypt/live/<domain goes here>/privkey.pem`. Use command to convert it to .p12 format to be used by our app
-   `sudo openssl pkcs12 -export -out swancloudcert.p12 -in /etc/letsencrypt/live/<domain goes here>/fullchain.pem -inkey /etc/letsencrypt/live/<domain goes here>/privkey.pem -passout pass: -nokeys`
+   `sudo openssl pkcs12 -export -out swancloudcert.p12 -in /etc/letsencrypt/live/<domain goes here>/fullchain.pem -inkey /etc/letsencrypt/live/<domain goes here>/privkey.pem -passout pass: -name "swancloud"`
+
+4. Give cert read permissions: `sudo chmod +r swancloudcert.p12`
