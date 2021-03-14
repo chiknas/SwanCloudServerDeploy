@@ -1,6 +1,7 @@
 #!/bin/sh
 CONTAINER="swancloud"
-IMAGE="chiknas/swancloud"
+TAG="latest"
+SSL=false
 
 # get command line arguments
 while [ $# -gt 0 ]
@@ -26,7 +27,6 @@ case $key in
     -s|--ssl)
     SSL=true
     shift # past argument
-    shift # past value
     ;;
 esac
 done
@@ -39,16 +39,6 @@ fi
 if [ -z "$HOSTPATH" ] ; then
     echo "Must provide a host path to be used for storage with the -p|--path flag." 1>&2
     exit 1
-fi
-if [ -z "$SSL" ] ; then
-    SSL=false
-fi
-
-# Use latest if image tag is not provided
-if [ -z "$TAG" ] ; then
-    IMAGE="${IMAGE}:latest"
-else
-    IMAGE="${IMAGE}:${TAG}"
 fi
 
 # check docker container exists by trying to inspect it
@@ -74,24 +64,27 @@ if docker inspect $CONTAINER ; then
 fi
 
 # refresh image
-if $SSL ; then
-    IMAGE="swancloudsecure"
+if [ "$SSL" = true ] ; then
+    IMAGE="swancloudsecure:${TAG}"
     docker image rm $IMAGE
-    docker build --tag $IMAGE:$TAG
+    docker build --tag $IMAGE .
+    PORT=443
 else
+    IMAGE="chiknas/swancloud:${TAG}"
     docker image rm $IMAGE
     docker pull $IMAGE
+    PORT=80
 fi
 echo "Refreshed image $IMAGE"
 
 # deploy
 echo "Starting deployment of $CONTAINER"
 docker run -d --restart always \
--p 80:8080 \
+-p $PORT:8080 \
 -v "${HOSTPATH}":"/app/data" \
 --env files.base-path=/app/data \
 --env spring.profiles.active=production \
 --env security.api.keys="{$APIKEYS}" \
---env server.ssl.enabled="{$SSL}" \
+--env server.ssl.enabled=$SSL \
 --name $CONTAINER \
-$IMAGE:$TAG
+$IMAGE
