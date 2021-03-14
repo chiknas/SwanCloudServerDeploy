@@ -1,6 +1,19 @@
-# SwanCloudServerDeploy on a Raspberry Pi 4
+# SwanCloudServerDeploy on a Raspberry Pi
 
-Instructions on how to use this project with a Raspberry Pi.
+Instructions on how to use this project with a Raspberry Pi. This has been tested on a Raspberry Pi 4 and Raspbian Lite OS.
+
+## Setup Docker
+
+Follow the [official how to](https://docs.docker.com/engine/install/debian/) install docker on a debian based linux distro.
+
+### Run docker with no sudo
+
+1. Add the Docker group if it doesn’t already exist: `sudo groupadd docker`
+
+2. Add the connected user “$USER” to the docker group. Change the user name to match your preferred user if you do not want to use your current user:
+   `sudo gpasswd -a $USER docker`
+
+3. Logout and log back in again
 
 ## Mount external usb drive
 
@@ -35,4 +48,6 @@ If you reboot or shutdown the Pi, the external SSD won’t be remounted when you
    `sudo certbot certonly --standalone -d <domain goes here>`
 
 3. The new certificate exists in `/etc/letsencrypt/live/<domain goes here>/fullchain.pem` with its key in `/etc/letsencrypt/live/<domain goes here>/privkey.pem`. Use command to convert it to .p12 format to be used by our app
-   `sudo openssl pkcs12 -export -out swancloudcert.p12 -in /etc/letsencrypt/live/<domain goes here>/fullchain.pem -inkey /etc/letsencrypt/live/<domain goes here>/privkey.pem -passout pass: -nokeys`
+   `sudo openssl pkcs12 -export -out swancloudcert.p12 -in /etc/letsencrypt/live/<domain goes here>/fullchain.pem -inkey /etc/letsencrypt/live/<domain goes here>/privkey.pem -passout pass: -name "swancloud"`
+
+4. Give cert read permissions: `sudo chmod +r swancloudcert.p12`
