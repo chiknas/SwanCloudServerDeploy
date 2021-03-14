@@ -23,6 +23,11 @@ case $key in
     shift # past argument
     shift # past value
     ;;
+    -s|--ssl)
+    SSL=true
+    shift # past argument
+    shift # past value
+    ;;
 esac
 done
 
@@ -35,6 +40,10 @@ if [ -z "$HOSTPATH" ] ; then
     echo "Must provide a host path to be used for storage with the -p|--path flag." 1>&2
     exit 1
 fi
+if [ -z "$SSL" ] ; then
+    SSL=false
+fi
+
 # Use latest if image tag is not provided
 if [ -z "$TAG" ] ; then
     IMAGE="${IMAGE}:latest"
@@ -65,8 +74,14 @@ if docker inspect $CONTAINER ; then
 fi
 
 # refresh image
-docker image rm $IMAGE
-docker pull $IMAGE
+if $SSL ; then
+    IMAGE="swancloudsecure"
+    docker image rm $IMAGE
+    docker build --tag $IMAGE:$TAG
+else
+    docker image rm $IMAGE
+    docker pull $IMAGE
+fi
 echo "Refreshed image $IMAGE"
 
 # deploy
@@ -77,6 +92,6 @@ docker run -d --restart always \
 --env files.base-path=/app/data \
 --env spring.profiles.active=production \
 --env security.api.keys="{$APIKEYS}" \
---env server.ssl.enabled=false \
+--env server.ssl.enabled="{$SSL}" \
 --name $CONTAINER \
-$IMAGE
+$IMAGE:$TAG
