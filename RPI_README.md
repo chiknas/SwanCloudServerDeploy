@@ -51,3 +51,11 @@ If you reboot or shutdown the Pi, the external SSD won’t be remounted when you
    `sudo openssl pkcs12 -export -out swancloudcert.p12 -in /etc/letsencrypt/live/<domain goes here>/fullchain.pem -inkey /etc/letsencrypt/live/<domain goes here>/privkey.pem -passout pass: -name "swancloud"`
 
 4. Give cert read permissions: `sudo chmod +r swancloudcert.p12`
+
+## Crontab example to refresh server (and cert)
+
+The example below will refresh the server and the certificate if we are in SSL mode monthly.
+
+1. open roots crontab: `sudo crontab -e`
+2. append:
+   `0 0 1 * * cd /home/pi/SwanCloudServerDeploy && ./swan-cloud-server-deploy.sh -k "'apiKey1'" -p /mnt/samsung -t arm32v7 -s -d example.com`
