@@ -32,6 +32,11 @@ case $key in
     SSL=true
     shift # past argument
     ;;
+    -d|--domain)
+    DOMAIN="$2"
+    shift # past argument
+    shift # past value
+    ;;
 esac
 done
 
@@ -44,9 +49,20 @@ if [ -z "$HOSTPATH" ] ; then
     echo "Must provide a host path to be used for storage with the -p|--path flag." 1>&2
     exit 1
 fi
+if [ "$SSL" = true ] ; then
+    if [ -z "$DOMAIN" ] ; then
+        echo "Must provide the current domain the server is running on with the -p|--path flag if we are in SSL mode." 1>&2
+        exit 1
+    fi
+fi
 
 # refresh image
 if [ "$SSL" = true ] ; then
+    # refresh certificate if we are in SSL mode
+    certbot renew
+    openssl pkcs12 -export -out swancloudcert.p12 -in /etc/letsencrypt/live/${DOMAIN}/fullchain.pem -inkey /etc/letsencrypt/live/${DOMAIN}/privkey.pem -passout pass: -name "swancloud"
+    chmod +r swancloudcert.p12
+
     IMAGE="swancloudsecure:${TAG}"
     docker image rm $IMAGE
     docker build --tag $IMAGE .
