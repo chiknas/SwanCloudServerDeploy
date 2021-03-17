@@ -20,7 +20,8 @@ Example command:
 
 ## DockerhubWebhook
 
-Python mini server which exposes an endpoint for POST requests on `/8e6fe373-c129-4ecf-97d9-95e36e8b1eac/trigger/call`. This will trigger a server refresh using the `swan-cloud-server-deploy.sh` file. If `emailsdetails.json` is setup it will also send notification emails on the list of `receivers` when a refresh is triggered.
+Python mini server which exposes an endpoint for POST requests on `/8e6fe373-c129-4ecf-97d9-95e36e8b1eac/trigger/call`. This will trigger a server refresh using the `swan-cloud-server-deploy.sh` file. If `application_config.json` is setup it will also send notification emails on the list of `receivers` when a refresh is triggered.
+`deployment_settings` object in the `application_config.json` are required for the correct deployment of the server.
 
 ### Usage
 

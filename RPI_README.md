@@ -59,3 +59,8 @@ The example below will refresh the server and the certificate if we are in SSL m
 1. open roots crontab: `sudo crontab -e`
 2. append:
    `0 0 1 * * cd /home/pi/SwanCloudServerDeploy && ./swan-cloud-server-deploy.sh -k "'apiKey1'" -p /mnt/samsung -t arm32v7 -s -d example.com`
+
+## Run swan-cloud-server-deploy.sh with no sudo
+
+To make it easier for the deployment to work give ownership of the `swan-cloud-server-deploy.sh` script to root with this command:
+  `sudo chown root swan-cloud-server-deploy.sh`

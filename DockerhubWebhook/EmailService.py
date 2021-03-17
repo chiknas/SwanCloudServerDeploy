@@ -3,13 +3,14 @@ import json
 
 def sendNotificationEmail(message):
 
-    with open('emailsdetails.json') as json_file:
+    with open('application_config.json') as json_file:
         data = json.load(json_file)
-        emailAddress = data["email"]['address']
-        emailPassword = data["email"]['password']
+        emailConfig = data["email_service"]
+        emailAddress = emailConfig['sender_address']
+        emailPassword = emailConfig['sender_password']
 
         if emailAddress and emailPassword:
-            for receiver in data['receivers']:
+            for receiver in emailConfig['receivers']:
                 if receiver:
 
                     content = 'Subject: Swan Cloud Server Update\n\n{}'.format(message)

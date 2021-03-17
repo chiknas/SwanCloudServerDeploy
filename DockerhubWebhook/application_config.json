@@ -1,0 +1,16 @@
+{
+    "email_service": {
+        "sender_address": "",
+        "sender_password": "",
+        "receivers": [
+            ""
+        ]
+    },
+    "deployment_settings": {
+        "api_keys": "",
+        "domain": "",
+        "base_file_path": "",
+        "base_image_tag": ""
+    }
+
+}
