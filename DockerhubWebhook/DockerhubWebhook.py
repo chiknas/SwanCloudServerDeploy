@@ -1,4 +1,4 @@
-from flask import Flask, Response
+from flask import Flask, Response, request
 from EmailService import sendNotificationEmail
 import subprocess
 import json
@@ -11,6 +11,12 @@ def refreshDeployment():
         deploymentConfig = getDeploymentConfig()
         if not deploymentConfig:
             raise Exception("Server deployment settings not setup")
+
+        # check the request is for the image tag we are currently interested in
+        content = request.json
+        imageTag = content["push_data"]["tag"]
+        if imageTag != deploymentConfig["base_image_tag"]:
+            return Response("Not interested", status=200)
         
         serverRefreshComand = "sudo ./swan-cloud-server-deploy.sh -k \"\'{keys}\'\" -p {basePath} -t {tag} -s -d {domain}".format(
             keys=deploymentConfig["api_keys"], basePath=deploymentConfig["base_file_path"], 
