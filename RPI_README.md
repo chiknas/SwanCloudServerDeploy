@@ -63,4 +63,31 @@ The example below will refresh the server and the certificate if we are in SSL m
 ## Run swan-cloud-server-deploy.sh with no sudo
 
 To make it easier for the deployment to work give ownership of the `swan-cloud-server-deploy.sh` script to root with this command:
-  `sudo chown root swan-cloud-server-deploy.sh`
+`sudo chown root swan-cloud-server-deploy.sh`
+
+## Deploy Dockerhub webhook service (optional)
+
+This is how to setup the python web server (Flask) to startup on boot and listen on `/8e6fe373-c129-4ecf-97d9-95e36e8b1eac/trigger/call` endpoint. Post requests to this endpoint will trigger a server refresh using the `swan-cloud-server-deploy.sh`. For this we will use the systemmd and create a new service for the webserver.
+
+1. Create new service config file:
+   `sudo nano /lib/systemd/system/swancloud_webhook.service`
+
+2. Edit your service attributes. example:
+
+```
+[Unit]
+Description=Swancloud dockerhub webhook web application
+After=network.target
+
+[Service]
+WorkingDirectory=/home/pi/SwanCloudServerDeploy/DockerhubWebhook
+ExecStart=/home/pi/SwanCloudServerDeploy/DockerhubWebhook/venv/dockerhub-webhook/bin/python3 /home/pi/SwanCloudServerDeploy/DockerhubWebhook/DockerhubWebhook.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+```
+
+3. Allow the service to start automatically on start up:
+   `sudo systemctl enable swancloud_webhook.service`
