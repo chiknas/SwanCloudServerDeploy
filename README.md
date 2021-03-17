@@ -27,5 +27,6 @@ Python mini server which exposes an endpoint for POST requests on `/8e6fe373-c12
 
 0.  `cd Dockerhubwebhook` change directory to the python project
 1.  `python3 -m venv venv/dockerhub-webhook` Create new python3 environment to install required dependencies on.
-2.  `pip3 install -r requirements.txt` Install required dependencies
-3.  `python3 DockerhubWebhook.py` Start the server
+2.  `source venv/dockerhub-webhook/bin/activate` Activate the python environment.
+3.  `pip3 install -r requirements.txt` Install required dependencies on the environment
+4.  `python3 DockerhubWebhook.py` Start the server
