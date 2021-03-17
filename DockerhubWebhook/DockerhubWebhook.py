@@ -12,7 +12,7 @@ def refreshDeployment():
         if not deploymentConfig:
             raise Exception("Server deployment settings not setup")
         
-        serverRefreshComand = "./swan-cloud-server-deploy.sh -k \"\'{keys}\'\" -p {basePath} -t {tag} -s -d {domain}".format(
+        serverRefreshComand = "sudo ./swan-cloud-server-deploy.sh -k \"\'{keys}\'\" -p {basePath} -t {tag} -s -d {domain}".format(
             keys=deploymentConfig["api_keys"], basePath=deploymentConfig["base_file_path"], 
             tag=deploymentConfig["base_image_tag"], domain=deploymentConfig["domain"], 
         )
