@@ -37,6 +37,11 @@ case $key in
     shift # past argument
     shift # past value
     ;;
+    -db|--db-path)
+    DATABASEPATH="$2"
+    shift # past argument
+    shift # past value
+    ;;
 esac
 done
 
@@ -64,12 +69,11 @@ if [ "$SSL" = true ] ; then
     chmod +r swancloudcert.p12
 
     IMAGE="swancloudsecure:${TAG}"
-    docker image rm $IMAGE
+    docker pull "chiknas/swancloud:${TAG}"
     docker build --tag $IMAGE .
     PORT=443
 else
     IMAGE="chiknas/swancloud:${TAG}"
-    docker image rm $IMAGE
     docker pull $IMAGE
     PORT=80
 fi
@@ -97,6 +101,7 @@ echo "Starting deployment of $CONTAINER"
 docker run -d --restart always \
 -p $PORT:8080 \
 -v "${HOSTPATH}":"/app/data" \
+${DATABASEPATH:+-v "$DATABASEPATH":"/app/db"} \
 --env files.base-path=/app/data \
 --env spring.profiles.active=production \
 --env security.api.keys="{$APIKEYS}" \

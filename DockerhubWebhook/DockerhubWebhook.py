@@ -18,9 +18,10 @@ def refreshDeployment():
         if imageTag != deploymentConfig["base_image_tag"]:
             return Response("Not interested", status=200)
         
-        serverRefreshComand = "sudo ./swan-cloud-server-deploy.sh -k \"\'{keys}\'\" -p {basePath} -t {tag} -s -d {domain}".format(
+        serverRefreshComand = "sudo ./swan-cloud-server-deploy.sh -k \"\'{keys}\'\" -p {basePath} -db {dbPath} -t {tag} -s -d {domain}".format(
             keys=deploymentConfig["api_keys"], basePath=deploymentConfig["base_file_path"], 
             tag=deploymentConfig["base_image_tag"], domain=deploymentConfig["domain"], 
+            dbPath=deploymentConfig["database_path"]
         )
 
         # run server refresh and listen for comand result code
