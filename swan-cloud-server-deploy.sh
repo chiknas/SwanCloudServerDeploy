@@ -101,7 +101,7 @@ echo "Starting deployment of $CONTAINER"
 docker run -d --restart always \
 -p $PORT:8080 \
 -v "${HOSTPATH}":"/app/data" \
-${DATABASEPATH:+-v "$DATABASEPATH":"/app/db"} \
+${DATABASEPATH:+-v "$DATABASEPATH":"/db"} \
 --env files.base-path=/app/data \
 --env spring.profiles.active=production \
 --env security.api.keys="{$APIKEYS}" \
