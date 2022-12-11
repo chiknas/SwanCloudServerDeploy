@@ -104,7 +104,7 @@ docker run -d --restart always \
 ${DATABASEPATH:+-v "$DATABASEPATH":"/db"} \
 --env files.base-path=/app/data \
 --env spring.profiles.active=production \
---env admin-emails="{$ADMIN_ACCOUNTS}" \
+--env admin-emails="$ADMIN_ACCOUNTS" \
 --env server.ssl.enabled=$SSL \
 --name $CONTAINER \
 $IMAGE
