@@ -5,7 +5,7 @@
     "receivers": [""]
   },
   "deployment_settings": {
-    "api_keys": "",
+    "admin_accounts": "",
     "domain": "",
     "base_file_path": "",
     "base_image_tag": "",

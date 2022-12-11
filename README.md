@@ -11,8 +11,8 @@ Example command:
 
 #### Command line arguments
 
-- -k|--keys = (REQUIRED) api keys that the server will respond to. any unauthorized request is dropped. Keys should be passed in this form:
-  `-k "'key1','key2'"`
+- -ac|--admin-accounts = (REQUIRED) Email accounts that can access the system. These are the only credentials that will be allowed to exist. No way to create more.
+  They should be passed in this form: `-ac "nikos@kyknas.com,kyknas@nikos.com"`
 
 - -p|--path = (REQUIRED) the path in the host machine to mount to the container and use as storage for the uploaded files.
 

@@ -3,6 +3,8 @@ import os
 import sys
 import time
 
+# DEPRECATED IN V2. Authentication is now handled with jwt tokens.
+
 # add details to the server and upload the specified folder to the server
 folder_path=""
 server=""

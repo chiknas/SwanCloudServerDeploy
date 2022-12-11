@@ -13,8 +13,8 @@ do
 key="$1"
 
 case $key in
-    -k|--keys)
-    APIKEYS="$2"
+    -ac|--admin-accounts)
+    ADMIN_ACCOUNTS="$2"
     shift # past argument
     shift # past value
     ;;
@@ -46,8 +46,8 @@ esac
 done
 
 # Check required params and exit if not set
-if [ -z "$APIKEYS" ] ; then
-    echo "Must provide some known API keys to the environment with the -k|--keys flag." 1>&2
+if [ -z "$ADMIN_ACCOUNTS" ] ; then
+    echo "Must provide an admin account email to the environment with the -ac|--admin-accounts flag." 1>&2
     exit 1
 fi
 if [ -z "$HOSTPATH" ] ; then
@@ -104,7 +104,7 @@ docker run -d --restart always \
 ${DATABASEPATH:+-v "$DATABASEPATH":"/db"} \
 --env files.base-path=/app/data \
 --env spring.profiles.active=production \
---env security.api.keys="{$APIKEYS}" \
+--env admin-emails="{$ADMIN_ACCOUNTS}" \
 --env server.ssl.enabled=$SSL \
 --name $CONTAINER \
 $IMAGE

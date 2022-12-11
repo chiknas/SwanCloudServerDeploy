@@ -18,8 +18,8 @@ def refreshDeployment():
         if imageTag != deploymentConfig["base_image_tag"]:
             return Response("Not interested", status=200)
         
-        serverRefreshComand = "sudo ./swan-cloud-server-deploy.sh -k \"\'{keys}\'\" -p {basePath} -db {dbPath} -t {tag} -s -d {domain}".format(
-            keys=deploymentConfig["api_keys"], basePath=deploymentConfig["base_file_path"], 
+        serverRefreshComand = "sudo ./swan-cloud-server-deploy.sh -ac \"\'{admin_accounts}\'\" -p {basePath} -db {dbPath} -t {tag} -s -d {domain}".format(
+            admin_accounts=deploymentConfig["admin_accounts"], basePath=deploymentConfig["base_file_path"], 
             tag=deploymentConfig["base_image_tag"], domain=deploymentConfig["domain"], 
             dbPath=deploymentConfig["database_path"]
         )
@@ -40,7 +40,7 @@ def getDeploymentConfig():
     with open('application_config.json') as json_file:
         config = json.load(json_file)
         deploymentConfig = config["deployment_settings"]
-        if deploymentConfig["api_keys"] and deploymentConfig["base_file_path"] and deploymentConfig["base_image_tag"] and deploymentConfig["domain"]:
+        if deploymentConfig["admin_accounts"] and deploymentConfig["base_file_path"] and deploymentConfig["base_image_tag"] and deploymentConfig["domain"]:
             return deploymentConfig
 
 if __name__ == '__main__':
